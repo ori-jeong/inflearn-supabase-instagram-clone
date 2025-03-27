@@ -1,3 +1,4 @@
+import LogoutButton from "components/logout-button";
 import Image from "next/image";
 
 export const metadata = {
@@ -6,5 +7,10 @@ export const metadata = {
 };
 
 export default function Home() {
-  return <main className="">Infleangram</main>;
+  return (
+    <main className="w-full h-screen flex flex-col gap-2 items-center justify-center">
+      <h1 className="font-bold text-xl">Welcome {"lopun.jh"}!</h1>
+      <LogoutButton />
+    </main>
+  );
 }

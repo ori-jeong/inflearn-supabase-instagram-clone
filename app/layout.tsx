@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "config/material-tailwind-theme-provider";
 import ReactQueryClientProvider from "config/ReactQueryClientProvider";
 import RecoilProvider from "config/RecoilProvider";
+import MainLayout from "components/layouts/main-layout";
+import Auth from "components/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +17,8 @@ export const metadata: Metadata = {
 // font-awesome: 다양한 아이콘들을 간단한 클래스명으로 import 해주는 라이브러리
 
 export default function RootLayout({ children }) {
+  const loggedIn = true;
+
   return (
     <RecoilProvider>
       <ReactQueryClientProvider>
@@ -30,7 +34,10 @@ export default function RootLayout({ children }) {
                 referrerPolicy="no-referrer"
               />
             </head>
-            <body className={inter.className}>{children}</body>
+            <body className={inter.className}>
+              {/* 로그인 상태면 MainLayout, 오프라인이면 Auth*/}
+              {loggedIn ? <MainLayout>{children}</MainLayout> : <Auth />}
+            </body>
           </html>
         </ThemeProvider>
       </ReactQueryClientProvider>
