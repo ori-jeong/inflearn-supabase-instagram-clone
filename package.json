@@ -19,10 +19,12 @@
     "@tanstack/react-query": "^5.68.0",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "javascript-time-ago": "^2.5.11",
     "next": "14.2.24",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.3.8",
+    "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
     "recoil": "^0.7.7"
   },
