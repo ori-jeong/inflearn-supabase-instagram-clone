@@ -89,7 +89,7 @@ import { createBrowserSupabaseClient } from "utils/supabase/client";
 //   return data;
 // }
 
-export async function updateMessage({ messageId }: { messageId: string }) {
+export async function updateMessage({ messageId }: { messageId: number }) {
   const supabase = await createBrowserSupabaseClient();
 
   const {
@@ -153,7 +153,7 @@ export default function ChatScreen() {
   // });
 
   const updateMessageMutation = useMutation({
-    mutationFn: async ({ messageId }: { messageId: string }) => {
+    mutationFn: async ({ messageId }: { messageId: number }) => {
       return updateMessage({ messageId });
     },
     onSuccess: () => {
@@ -169,12 +169,15 @@ export default function ChatScreen() {
       .on(
         "postgres_changes",
         {
-          event: "INSERT",
+          event: "*",
           schema: "public",
           table: "message",
         },
         (payload) => {
-          if (payload.eventType === "INSERT" && !payload.errors) {
+          if (
+            ["INSERT", "UPDATE"].includes(payload.eventType) &&
+            !payload.errors
+          ) {
             getAllMessagesQuery.refetch();
           }
         }
