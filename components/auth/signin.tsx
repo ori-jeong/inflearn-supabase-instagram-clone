@@ -1,10 +1,31 @@
+"use client";
 import { Button, Input } from "@material-tailwind/react";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { createBrowserSupabaseClient } from "utils/supabase/client";
 
 // 회원가입 창 안에서 로그인 창으로 넘어가고, 로그인 창에서 회원가입 창으로 넘어갈 수 있어야 하기 때문에 setview를 받아야함
 export default function SignIn({ setView }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const supabase = createBrowserSupabaseClient();
+
+  const signInMutation = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      // 세션이 존재하면 자동으로 페이지 이동이 되기 때문에 별도 처리 필요 없음
+      if (data) {
+        console.log(data);
+      }
+
+      if (error) {
+        alert(error.message);
+      }
+    },
+  });
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,8 +47,10 @@ export default function SignIn({ setView }) {
         />
         <Button
           onClick={() => {
-            console.log("signin");
+            signInMutation.mutate();
           }}
+          loading={signInMutation.isPaused}
+          disabled={signInMutation.isPaused}
           color="light-blue"
           className="w-full text-md py-1"
         >
